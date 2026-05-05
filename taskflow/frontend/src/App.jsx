@@ -3,12 +3,14 @@ import "./App.css";
 import { api } from "./services/api";
 import { AuthScreen } from "./pages/AuthScreen";
 import { Dashboard } from "./pages/Dashboard";
+import { LandingPage } from "./pages/LandingPage";
 
 export default function App() {
   const [username, setUsername] = useState(null);
   const [theme, setTheme] = useState("dark");
   const [sidebarLayout, setSidebar] = useState(null);
   const [checking, setChecking] = useState(true);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -36,20 +38,22 @@ export default function App() {
   }
 
   if (checking) return (
-    <><div className="bg" /><div style={{ padding: 80, textAlign: "center", color: "#fff", position: "relative" }}>Loading…</div></>
+    <><div className="bg" /><div style={{ padding: 80, textAlign: "center", color: "#fff", position: "relative" }}>Loading...</div></>
   );
 
-  if (!username) return (
-    <AuthScreen onLogin={(u, t, sl) => { setUsername(u); setTheme(t || "dark"); setSidebar(sl); }} />
-  );
-
-  return (
+  if (username) return (
     <Dashboard
       username={username}
       theme={theme}
       sidebarLayout={sidebarLayout}
-      onLogout={() => { setUsername(null); setTheme("dark"); setSidebar(null); }}
+      onLogout={() => { setUsername(null); setTheme("dark"); setSidebar(null); setShowAuth(false); }}
       onThemeToggle={toggleTheme}
     />
   );
+
+  if (showAuth) return (
+    <AuthScreen onLogin={(u, t, sl) => { setUsername(u); setTheme(t || "dark"); setSidebar(sl); }} />
+  );
+
+  return <LandingPage onGetStarted={() => setShowAuth(true)} />;
 }
