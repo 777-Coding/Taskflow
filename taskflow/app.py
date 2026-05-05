@@ -1,4 +1,5 @@
 import logging
+import os
 from backend import create_app, db
 from sqlalchemy import inspect, text
 from backend.config import DEFAULT_SIDEBAR
@@ -28,4 +29,5 @@ if __name__ == "__main__":
                 for sql in migrations:
                     try: conn.execute(text(sql)); conn.commit()
                     except: pass
-    app.run(debug=True, port=5000)
+      port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
