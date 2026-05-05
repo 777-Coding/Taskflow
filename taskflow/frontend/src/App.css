@@ -391,3 +391,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
   .stat-card { padding: 10px; }
   .task-title { font-size: 13px; }
 }
+
+/* ── Mobile Form Fix ── */
+@media (max-width: 768px) {
+  .add-form { padding: 16px; }
+  .add-form .form-row { display: flex; flex-direction: column; gap: 12px; }
+  .add-form .field { width: 100%; }
+  .add-form input, .add-form select { width: 100%; box-sizing: border-box; }
+  .field input, .field select { width: 100%; box-sizing: border-box; }
+  .edit-date { width: 100%; box-sizing: border-box; }
+}
