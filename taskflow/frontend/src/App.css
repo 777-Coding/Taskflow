@@ -319,3 +319,75 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
 .modal-task-row select { padding:5px 8px; border:1px solid var(--glass-border-strong); border-radius:8px; background:var(--input-bg); color:var(--text); font-size:12px; font-family:inherit; outline:none; }
 .modal-task-row select option { background:#1a1e2e; }
 .modal-actions { display:flex; justify-content:center; gap:10px; }
+
+/* ── Mobile Responsive ── */
+@media (max-width: 768px) {
+  /* Navbar */
+  .navbar { padding: 10px 16px; gap: 8px; }
+  .brand { font-size: 18px; }
+  .nav-user { gap: 6px; }
+  .nav-user span { display: none; }
+  .nav-avatar { width: 28px; height: 28px; font-size: 11px; }
+  .theme-toggle { font-size: 14px; padding: 4px; }
+
+  /* Main layout - stack vertically */
+  .main { flex-direction: column; padding: 12px; gap: 12px; overflow: visible; }
+
+  /* Sidebar - horizontal scrolling row */
+  .sidebar { 
+    width: 100%; 
+    flex-direction: row; 
+    flex-wrap: nowrap;
+    overflow-x: auto; 
+    gap: 6px; 
+    padding: 8px;
+    min-height: unset;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-top { display: none; }
+  .filter-btn { 
+    white-space: nowrap; 
+    padding: 6px 14px; 
+    font-size: 12px;
+    flex-shrink: 0;
+    min-width: unset;
+  }
+
+  /* Hide right panel on mobile */
+  .right-panel { display: none; }
+
+  /* Content */
+  .content { width: 100%; min-width: 0; }
+
+  /* Stats */
+  .stats { gap: 8px; }
+  .stat-card { padding: 12px; }
+  .stat-val { font-size: 20px; }
+
+  /* Filter bar */
+  .filter-bar { flex-direction: column; gap: 8px; }
+
+  /* Content header */
+  .content-header { flex-wrap: wrap; gap: 8px; }
+  .content-header h2 { font-size: 18px; }
+
+  /* Add form */
+  .form-row { flex-direction: column; }
+
+  /* Task items */
+  .task-item { padding: 10px 12px; }
+  .task-actions { flex-wrap: wrap; gap: 4px; }
+  .task-actions .btn { font-size: 11px; padding: 4px 8px; }
+
+  /* Edit toolbar */
+  .edit-toolbar { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .edit-toolbar-right { width: 100%; display: flex; gap: 8px; }
+  .edit-toolbar-right .btn { flex: 1; }
+}
+
+@media (max-width: 480px) {
+  .navbar { padding: 8px 12px; }
+  .main { padding: 8px; }
+  .stat-card { padding: 10px; }
+  .task-title { font-size: 13px; }
+}
