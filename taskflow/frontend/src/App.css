@@ -730,3 +730,45 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
   .tf-footer { padding: 32px 24px; }
   .tf-footer-inner { flex-direction: column; gap: 16px; text-align: center; }
 }
+
+/* ── Auth Screen Redesign ── */
+.tf-auth { display: flex; min-height: 100vh; position: relative; font-family: 'Inter', sans-serif; }
+.tf-auth-bg { position: fixed; inset: 0; z-index: 0; background: radial-gradient(circle at left center, rgba(115,84,255,0.5), transparent 25%), radial-gradient(circle at center top, rgba(61,52,150,0.3), transparent 30%), linear-gradient(135deg, #0a0920 0%, #050510 60%, #02020a 100%); }
+.tf-auth-bg::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 80px 80px; opacity: 0.3; pointer-events: none; }
+
+/* Left panel */
+.tf-auth-left { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 60px 64px; }
+.tf-auth-logo { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 60px; }
+.tf-auth-pitch { max-width: 480px; }
+.tf-auth-headline { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; color: #fff; line-height: 1.05; margin-bottom: 18px; text-shadow: 0 0 40px rgba(255,255,255,0.2); }
+.tf-auth-sub { font-size: 1.05rem; color: #9ca0b4; line-height: 1.7; margin-bottom: 40px; }
+.tf-auth-perks { display: flex; flex-direction: column; gap: 14px; }
+.tf-auth-perk { display: flex; align-items: flex-start; gap: 12px; font-size: 0.92rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.tf-auth-perk-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; color: #a78bfa; }
+
+/* Right panel */
+.tf-auth-right { position: relative; z-index: 1; flex: 0 0 480px; display: flex; align-items: center; justify-content: center; padding: 40px; background: rgba(10,10,24,0.6); border-left: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.tf-auth-form { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
+.tf-auth-form-logo { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.tf-auth-form h3 { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin: 0; }
+.tf-auth-form-sub { font-size: 0.9rem; color: #9ca0b4; margin: 0; }
+.tf-auth-error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; }
+.tf-auth-field { display: flex; flex-direction: column; gap: 7px; }
+.tf-auth-field label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+.tf-auth-field input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 13px 16px; color: #fff; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; outline: none; }
+.tf-auth-field input:focus { border-color: rgba(124,92,255,0.6); background: rgba(124,92,255,0.06); }
+.tf-auth-field input::placeholder { color: rgba(255,255,255,0.25); }
+.tf-auth-submit { padding: 14px; border-radius: 14px; border: none; background: linear-gradient(135deg, #7c5cff, #9b7bff); color: #fff; font-size: 1rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
+.tf-auth-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,92,255,0.4); }
+.tf-auth-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+.tf-auth-switch { text-align: center; font-size: 0.88rem; color: #9ca0b4; margin: 0; }
+.tf-auth-switch span { color: #a78bfa; cursor: pointer; font-weight: 600; }
+.tf-auth-switch span:hover { color: #c4b5fd; }
+
+/* Mobile */
+@media (max-width: 860px) {
+  .tf-auth { flex-direction: column; }
+  .tf-auth-left { padding: 40px 24px 32px; }
+  .tf-auth-headline { font-size: 2.4rem; }
+  .tf-auth-right { flex: unset; width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.07); padding: 32px 24px 48px; }
+}
