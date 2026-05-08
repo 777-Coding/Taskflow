@@ -31,6 +31,24 @@ export default function App() {
     }).catch(() => { localStorage.removeItem("token"); setChecking(false); });
   }, []);
 
+  // Listen for browser back button
+  useEffect(() => {
+    const handlePop = () => {
+      if (window.location.hash === "#auth") {
+        setShowAuth(true);
+      } else {
+        setShowAuth(false);
+      }
+    };
+    window.addEventListener("popstate", handlePop);
+    return () => window.removeEventListener("popstate", handlePop);
+  }, []);
+
+  function goToAuth() {
+    window.history.pushState(null, "", "#auth");
+    setShowAuth(true);
+  }
+
   async function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -46,7 +64,7 @@ export default function App() {
       username={username}
       theme={theme}
       sidebarLayout={sidebarLayout}
-      onLogout={() => { setUsername(null); setTheme("dark"); setSidebar(null); setShowAuth(false); }}
+      onLogout={() => { setUsername(null); setTheme("dark"); setSidebar(null); setShowAuth(false); window.history.pushState(null, "", "/"); }}
       onThemeToggle={toggleTheme}
     />
   );
@@ -55,5 +73,5 @@ export default function App() {
     <AuthScreen onLogin={(u, t, sl) => { setUsername(u); setTheme(t || "dark"); setSidebar(sl); }} />
   );
 
-  return <LandingPage onGetStarted={() => setShowAuth(true)} />;
+  return <LandingPage onGetStarted={goToAuth} />;
 }
