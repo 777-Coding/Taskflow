@@ -732,22 +732,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
 }
 
 /* ── Auth Screen Redesign ── */
-.tf-auth { display: flex; min-height: 100vh; position: relative; font-family: 'Inter', sans-serif; }
+.tf-auth { display: flex; min-height: 100vh; align-items: center; justify-content: center; position: relative; font-family: 'Inter', sans-serif; padding: 40px 24px; box-sizing: border-box; }
 .tf-auth-bg { position: fixed; inset: 0; z-index: 0; background: radial-gradient(circle at left center, rgba(115,84,255,0.5), transparent 25%), radial-gradient(circle at center top, rgba(61,52,150,0.3), transparent 30%), linear-gradient(135deg, #0a0920 0%, #050510 60%, #02020a 100%); }
 .tf-auth-bg::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 80px 80px; opacity: 0.3; pointer-events: none; }
 
 /* Left panel */
-.tf-auth-left { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 60px 64px; }
-.tf-auth-logo { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 60px; }
-.tf-auth-pitch { max-width: 480px; }
-.tf-auth-headline { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; color: #fff; line-height: 1.05; margin-bottom: 18px; text-shadow: 0 0 40px rgba(255,255,255,0.2); }
-.tf-auth-sub { font-size: 1.05rem; color: #9ca0b4; line-height: 1.7; margin-bottom: 40px; }
-.tf-auth-perks { display: flex; flex-direction: column; gap: 14px; }
-.tf-auth-perk { display: flex; align-items: flex-start; gap: 12px; font-size: 0.92rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
-.tf-auth-perk-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; color: #a78bfa; }
+.tf-auth-left { position: relative; z-index: 1; flex: 0 0 420px; display: flex; flex-direction: column; justify-content: center; padding: 48px 48px 48px 0; }
+.tf-auth-logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 32px; }
+.tf-auth-pitch { max-width: 420px; }
+.tf-auth-headline { font-size: 2.8rem; font-weight: 800; letter-spacing: -2px; color: #fff; line-height: 1.05; margin-bottom: 14px; text-shadow: 0 0 40px rgba(255,255,255,0.2); }
+.tf-auth-sub { font-size: 0.98rem; color: #9ca0b4; line-height: 1.7; margin-bottom: 28px; }
+.tf-auth-perks { display: flex; flex-direction: column; gap: 11px; }
+.tf-auth-perk { display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.tf-auth-perk-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; color: #a78bfa; }
 
 /* Right panel */
-.tf-auth-right { position: relative; z-index: 1; flex: 0 0 480px; display: flex; align-items: center; justify-content: center; padding: 40px; background: rgba(10,10,24,0.6); border-left: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.tf-auth-right { position: relative; z-index: 1; flex: 0 0 400px; display: flex; align-items: center; justify-content: center; padding: 40px; background: rgba(10,10,24,0.75); border: 1px solid rgba(255,255,255,0.09); border-radius: 24px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
 .tf-auth-form { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
 .tf-auth-form-logo { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
 .tf-auth-form h3 { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin: 0; }
