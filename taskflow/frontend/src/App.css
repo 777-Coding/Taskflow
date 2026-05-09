@@ -885,3 +885,120 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
   .btn-primary { background: linear-gradient(135deg, #7c5cff, #9b7bff) !important; border: none !important; color: #fff !important; font-weight: 700 !important; border-radius: 12px !important; }
   .btn-primary:hover { box-shadow: 0 6px 20px rgba(124,92,255,0.4) !important; transform: translateY(-1px) !important; }
 }
+
+/* ── Dashboard v2 — Match mockup style ── */
+[data-theme="dark"] {
+
+  /* Hide stat cards — cleaner look like mockup */
+  .stats { display: none !important; }
+
+  /* Task actions hidden by default, show on hover */
+  .task-actions { opacity: 0; transition: opacity 0.15s ease; }
+  .task-item:hover .task-actions { opacity: 1; }
+
+  /* Task item layout — bigger, card-like */
+  .task-item {
+    display: grid !important;
+    grid-template-columns: auto auto 1fr auto !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 18px 20px !important;
+    margin-bottom: 10px !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    background: rgba(255,255,255,0.04) !important;
+    cursor: pointer !important;
+    min-height: 64px !important;
+  }
+
+  /* Task body layout */
+  .task-body {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  /* Task title bigger */
+  .task-title {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    flex: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Task meta inline */
+  .task-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Due badge styled like time */
+  .due-badge {
+    font-size: 13px !important;
+    color: rgba(255,255,255,0.45) !important;
+    min-width: 70px !important;
+    text-align: right !important;
+  }
+
+  /* Category badge — pill style matching mockup */
+  .badge {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+  }
+  .badge-work     { background: rgba(124,92,255,0.3) !important; color: #c6b8ff !important; }
+  .badge-personal { background: rgba(16,185,129,0.25) !important; color: #86efcf !important; }
+  .badge-urgent   { background: rgba(248,113,113,0.25) !important; color: #fca5a5 !important; }
+  .badge-other    { background: rgba(251,146,60,0.25) !important; color: #fed7aa !important; }
+
+  /* Group headers — big bold like mockup */
+  .task-group { margin-bottom: 8px !important; }
+  .group-header {
+    background: transparent !important;
+    border: none !important;
+    padding: 16px 0 8px !important;
+    cursor: default !important;
+  }
+  .group-label {
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px !important;
+    color: #fff !important;
+  }
+  .group-overdue .group-label { color: #f87171 !important; }
+
+  /* Search bar */
+  .search-bar {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+  }
+
+  /* Content header */
+  .content-header h2 {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: rgba(255,255,255,0.5) !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* Hide drag handle by default */
+  .drag-handle { opacity: 0 !important; transition: opacity 0.15s !important; }
+  .task-item:hover .drag-handle { opacity: 0.4 !important; }
+
+  /* Empty state */
+  .empty-state {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px dashed rgba(255,255,255,0.1) !important;
+    border-radius: 20px !important;
+  }
+}
