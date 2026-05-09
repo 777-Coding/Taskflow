@@ -70,8 +70,8 @@ export default function App() {
   );
 
   if (showAuth) return (
-    <AuthScreen onLogin={(u, t, sl) => { setUsername(u); setTheme(t || "dark"); setSidebar(sl); }} />
+    <AuthScreen onLogin={(u, t, sl) => { setUsername(u); setTheme(t || "dark"); setSidebar(sl); }} onHome={() => { setShowAuth(false); window.history.pushState(null, "", "/"); }} />
   );
 
-  return <LandingPage onGetStarted={goToAuth} />;
+  return <LandingPage onGetStarted={goToAuth} onHome={() => {}} />;
 }

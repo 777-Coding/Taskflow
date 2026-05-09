@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { TopNav } from "../components/TopNav";
 
 const tasks = [
   { title: "Finish landing page design", tag: "Work",     tagClass: "tf-tag-work",     time: "10:00 AM" },
@@ -98,7 +99,7 @@ const stats = [
   { value: "∞", label: "Tasks you can create" },
 ];
 
-export function LandingPage({ onGetStarted }) {
+export function LandingPage({ onGetStarted, onHome = () => {} }) {
   useEffect(() => {
     const taskEls = document.querySelectorAll(".tf-task");
     taskEls.forEach(t => {
@@ -121,14 +122,7 @@ export function LandingPage({ onGetStarted }) {
       <div className="tf-container">
 
         {/* Navbar */}
-        <nav className="tf-navbar">
-          <div className="tf-logo">TaskFlow</div>
-          <ul className="tf-nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#about">About</a></li>
-          </ul>
-          <button className="tf-signin-btn" onClick={onGetStarted}>Sign in</button>
-        </nav>
+        <TopNav onHome={onHome} onGetStarted={onGetStarted} />
 
         {/* Hero */}
         <section className="tf-hero">
