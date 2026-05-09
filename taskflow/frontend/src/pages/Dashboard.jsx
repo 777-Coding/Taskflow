@@ -232,19 +232,41 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
 
         <div className="main">
           <aside className="sidebar">
-            <div className="sidebar-top">
-              <span className="sidebar-label">Categories</span>
-              <button className="sidebar-manage-btn" onClick={() => setShowManage((o) => !o)}>{showManage ? "Done" : "Manage"}</button>
-            </div>
-            {showManage ? (
-              <SidebarManager layout={layout} onChange={saveLayout} />
-            ) : (
-              layout.map((f) => (
-                <button key={f.key} className={`filter-btn${filter === f.key ? " active" : ""}`} onClick={() => setFilter(f.key)}>
-                  <div className="filter-dot" />{f.label}
+            <div className="dash-logo">TaskFlow</div>
+
+            {/* Main nav items */}
+            <div className="dash-nav">
+              {[
+                { key: "all",       label: "All tasks",  icon: "▣" },
+                { key: "today",     label: "Today",      icon: "☆" },
+                { key: "personal",  label: "Personal",   icon: "◫" },
+                { key: "work",      label: "Work",       icon: "📁" },
+                { key: "urgent",    label: "Urgent",     icon: "⚡" },
+                { key: "overdue",   label: "Overdue",    icon: "⏰" },
+                { key: "completed", label: "Completed",  icon: "✓" },
+              ].map((item) => (
+                <button key={item.key} className={`dash-nav-item${filter === item.key ? " active" : ""}`} onClick={() => setFilter(item.key)}>
+                  <span className="dash-nav-icon">{item.icon}</span>
+                  <span>{item.label}</span>
                 </button>
-              ))
-            )}
+              ))}
+            </div>
+
+            {/* Tags section */}
+            <div className="dash-projects">
+              <div className="dash-projects-label">Tags</div>
+              {[
+                { name: "Work",     color: "#7c5cff" },
+                { name: "Personal", color: "#3b82f6" },
+                { name: "Study",    color: "#10b981" },
+                { name: "Health",   color: "#f59e0b" },
+              ].map((t) => (
+                <div key={t.name} className="dash-project-item" onClick={() => setFilter(t.name.toLowerCase())}>
+                  <span className="dash-project-dot" style={{ background: t.color }} />
+                  <span>{t.name}</span>
+                </div>
+              ))}
+            </div>
           </aside>
 
           <div className="content">
