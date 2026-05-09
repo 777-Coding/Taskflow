@@ -793,3 +793,92 @@ body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif
   .tf-topnav-inner { padding: 14px 24px; }
   .tf-topnav-links { display: none; }
 }
+
+/* ── Dashboard Restyle ── */
+
+/* Override background to match landing page */
+body { background: #0a0920 !important; }
+.bg { background:
+  radial-gradient(circle at left center, rgba(115,84,255,0.35), transparent 30%),
+  radial-gradient(circle at 80% 20%, rgba(61,52,150,0.2), transparent 40%),
+  linear-gradient(135deg, #0a0920 0%, #050510 60%, #02020a 100%) !important; }
+
+/* Navbar */
+.navbar { background: rgba(10,9,32,0.85) !important; border-bottom: 1px solid rgba(255,255,255,0.07) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; }
+.brand { font-size: 22px !important; font-weight: 800 !important; letter-spacing: -0.5px !important; }
+.brand span { color: #a78bfa !important; }
+
+/* Sidebar restyle */
+.sidebar { width: 220px !important; padding: 20px 12px !important; border-right: 1px solid rgba(255,255,255,0.06); }
+.sidebar-top { padding: 0 6px !important; margin-bottom: 12px !important; }
+.sidebar-label { font-size: 11px !important; letter-spacing: 1.2px !important; color: rgba(255,255,255,0.3) !important; }
+.filter-btn { padding: 10px 14px !important; border-radius: 12px !important; font-size: 13.5px !important; color: rgba(255,255,255,0.55) !important; margin-bottom: 2px !important; border: none !important; }
+.filter-btn:hover { background: rgba(255,255,255,0.06) !important; color: rgba(255,255,255,0.9) !important; }
+.filter-btn.active { background: rgba(124,92,255,0.25) !important; color: #fff !important; font-weight: 600 !important; border: none !important; }
+.filter-dot { width: 8px !important; height: 8px !important; }
+.filter-btn.active .filter-dot { background: #a78bfa !important; box-shadow: 0 0 8px rgba(167,139,250,0.6) !important; }
+
+/* Stats — make them smaller and less prominent */
+.stats { gap: 12px !important; margin-bottom: 20px !important; }
+.stat-card { padding: 16px 20px !important; background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(255,255,255,0.07) !important; border-radius: 14px !important; }
+.stat-card:hover { background: rgba(255,255,255,0.06) !important; transform: none !important; box-shadow: none !important; }
+.stat-icon { width: 40px !important; height: 40px !important; font-size: 18px !important; border-radius: 10px !important; }
+.stat-val { font-size: 28px !important; }
+.stat-label { font-size: 10px !important; }
+
+/* Content area */
+.content { padding: 28px 0 !important; }
+.content-header h2 { font-size: 32px !important; font-weight: 800 !important; letter-spacing: -1px !important; }
+
+/* Group headers — big bold section titles like "Today", "Upcoming" */
+.group-header { background: transparent !important; border: none !important; padding: 8px 0 12px !important; margin-bottom: 4px !important; }
+.group-label { font-size: 26px !important; font-weight: 800 !important; color: #fff !important; letter-spacing: -0.5px !important; }
+.group-count { font-size: 13px !important; background: rgba(124,92,255,0.2) !important; color: #a78bfa !important; padding: 2px 10px !important; border-radius: 20px !important; }
+.group-overdue .group-label { color: #f87171 !important; }
+.group-today .group-label { color: #fff !important; }
+
+/* Task items — spacious cards matching the design */
+.task-item { background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(255,255,255,0.07) !important; border-radius: 14px !important; padding: 16px 20px !important; transition: background 0.2s, transform 0.2s !important; }
+.task-item:hover { background: rgba(255,255,255,0.07) !important; transform: translateY(-1px) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; border-color: rgba(255,255,255,0.12) !important; }
+.task-item.done { opacity: 0.4 !important; }
+.task-item.urgent { border-color: rgba(248,113,113,0.25) !important; }
+
+/* Task check button */
+.task-check { width: 20px !important; height: 20px !important; border-radius: 6px !important; border: 1.5px solid rgba(255,255,255,0.2) !important; background: transparent !important; cursor: pointer !important; flex-shrink: 0 !important; margin-top: 2px !important; transition: all 0.15s !important; }
+.task-check:hover { border-color: rgba(124,92,255,0.6) !important; background: rgba(124,92,255,0.1) !important; }
+.task-check.checked { background: #7c5cff !important; border-color: #7c5cff !important; }
+
+/* Task title */
+.task-title { font-size: 14px !important; font-weight: 500 !important; color: rgba(255,255,255,0.85) !important; }
+
+/* Category badges to match the design */
+.badge { font-size: 11px !important; font-weight: 700 !important; padding: 4px 12px !important; border-radius: 999px !important; }
+.badge-work     { background: rgba(124,92,255,0.25) !important; color: #c6b8ff !important; }
+.badge-personal { background: rgba(16,185,129,0.2) !important;  color: #86efcf !important; }
+.badge-urgent   { background: rgba(248,113,113,0.2) !important; color: #fca5a5 !important; }
+.badge-other    { background: rgba(251,146,60,0.2) !important;  color: #fed7aa !important; }
+
+/* Due date badges */
+.due-badge { font-size: 12px !important; color: rgba(255,255,255,0.4) !important; background: transparent !important; border: none !important; padding: 0 !important; }
+.due-overdue { color: #f87171 !important; }
+.due-today   { color: #fb923c !important; }
+.due-soon    { color: #fbbf24 !important; }
+
+/* Search bar */
+.search-bar { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 12px !important; }
+.search-bar:focus-within { border-color: rgba(124,92,255,0.4) !important; }
+
+/* Right panel */
+.right-panel { background: transparent !important; border-left: 1px solid rgba(255,255,255,0.06) !important; padding: 28px 16px !important; }
+.rp-title { font-size: 11px !important; font-weight: 700 !important; color: rgba(255,255,255,0.3) !important; letter-spacing: 1.2px !important; text-transform: uppercase !important; margin-bottom: 20px !important; }
+.rp-label { font-size: 13px !important; font-weight: 600 !important; }
+.accent-today   { color: #a78bfa !important; }
+.accent-overdue { color: #f87171 !important; }
+.accent-week    { color: #60a5fa !important; }
+.rp-count { font-size: 12px !important; background: rgba(255,255,255,0.08) !important; padding: 1px 8px !important; border-radius: 10px !important; }
+.mini-task { padding: 8px 0 !important; }
+.mini-title { font-size: 12px !important; color: rgba(255,255,255,0.6) !important; }
+
+/* Add task button */
+.btn-primary { background: linear-gradient(135deg, #7c5cff, #9b7bff) !important; border: none !important; color: #fff !important; font-weight: 700 !important; border-radius: 12px !important; }
+.btn-primary:hover { box-shadow: 0 6px 20px rgba(124,92,255,0.4) !important; transform: translateY(-1px) !important; }
