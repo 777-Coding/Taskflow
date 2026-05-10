@@ -238,6 +238,13 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
             <div className="dash-logo">TaskFlow</div>
 
             {/* Main nav items */}
+            <div className="dash-nav-header">
+              <span className="dash-nav-label">Categories</span>
+              <button className="dash-manage-btn" onClick={() => setShowManage((o) => !o)}>{showManage ? "Done" : "Manage"}</button>
+            </div>
+            {showManage ? (
+              <SidebarManager layout={layout} onChange={saveLayout} />
+            ) : (
             <div className="dash-nav">
               {[
                 { key: "all",       label: "All tasks",  icon: "▣" },
@@ -254,6 +261,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
                 </button>
               ))}
             </div>
+            )}
 
             {/* Tags section */}
             <div className="dash-projects">
@@ -325,7 +333,24 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
                     <input type="date" value={newDue} onChange={(e) => setNewDue(e.target.value)} />
                   </div>
                 </div>
-                <div className="field"><label>Tags (Enter or comma)</label><TagInput tags={newTags} onChange={setNewTags} /></div>
+                <div className="field">
+                  <label>Tags</label>
+                  <div className="tag-picker-wrap">
+                    {customTags.length > 0 && (
+                      <div className="tag-picker-options">
+                        {customTags.map(t => (
+                          <button key={t.key} type="button"
+                            className={"tag-picker-opt" + (newTags.includes(t.name) ? " selected" : "")}
+                            style={{ borderColor: t.color, color: newTags.includes(t.name) ? "#fff" : t.color, background: newTags.includes(t.name) ? t.color + "44" : "transparent" }}
+                            onClick={() => setNewTags(prev => prev.includes(t.name) ? prev.filter(x => x !== t.name) : [...prev, t.name])}>
+                            {t.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <TagInput tags={newTags} onChange={setNewTags} />
+                  </div>
+                </div>
                 <button className="btn btn-primary" type="submit" disabled={addLoading}>
                   {addLoading ? <span className="spinner spinner-sm" /> : "Add task"}
                 </button>
