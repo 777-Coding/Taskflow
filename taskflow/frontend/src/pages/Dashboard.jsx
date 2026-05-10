@@ -50,6 +50,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const [dragId, setDragId]         = useState(null);
   const [dragOverId, setDragOverId] = useState(null);
   const [showManage, setShowManage] = useState(false);
+  const [customTags, setCustomTags]   = useState([]);
   const [editMode, setEditMode]     = useState(false);
   const [selected, setSelected]     = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -194,7 +195,9 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
         filter === "urgent"    ? (!t.done && t.category === "urgent") :
         filter === "personal"  ? t.category === "personal" :
         filter === "work"      ? t.category === "work" :
-        t.category === filter || t.tags?.includes(filter);
+        filter.startsWith("tag:")
+        ? t.tags?.includes(filter.replace("tag:tag_", "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()).toLowerCase()) || t.tags?.some(tag => "tag_" + tag.toLowerCase().replace(/\s+/g, "_") === filter.replace("tag:", ""))
+        : t.category === filter || t.tags?.includes(filter);
       return mf && (!search || t.title.toLowerCase().includes(search.toLowerCase()));
     });
     return sortTasks(filtered);
@@ -254,16 +257,21 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
 
             {/* Tags section */}
             <div className="dash-projects">
-              <div className="dash-projects-label">Tags</div>
-              {[
-                { name: "Work",     color: "#7c5cff" },
-                { name: "Personal", color: "#3b82f6" },
-                { name: "Study",    color: "#10b981" },
-                { name: "Health",   color: "#f59e0b" },
-              ].map((t) => (
-                <div key={t.name} className="dash-project-item" onClick={() => setFilter(t.name.toLowerCase())}>
+              <div className="dash-projects-header">
+                <div className="dash-projects-label">Tags</div>
+                <button className="dash-tag-add" onClick={() => {
+                  const tag = prompt("New tag name:");
+                  if (tag && tag.trim()) {
+                    const key = "tag_" + tag.trim().toLowerCase().replace(/\s+/g, "_");
+                    setCustomTags(prev => prev.find(t => t.key === key) ? prev : [...prev, { key, name: tag.trim(), color: ["#7c5cff","#3b82f6","#10b981","#f59e0b","#f43f5e","#06b6d4"][prev.length % 6] }]);
+                  }
+                }}>+</button>
+              </div>
+              {customTags.map((t) => (
+                <div key={t.key} className="dash-project-item" onClick={() => setFilter("tag:" + t.key)}>
                   <span className="dash-project-dot" style={{ background: t.color }} />
                   <span>{t.name}</span>
+                  <button className="dash-tag-remove" onClick={(e) => { e.stopPropagation(); setCustomTags(prev => prev.filter(x => x.key !== t.key)); if (filter === "tag:" + t.key) setFilter("all"); }}>×</button>
                 </div>
               ))}
             </div>
