@@ -42,6 +42,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const [newCat, setNewCat]         = useState("work");
   const [newDue, setNewDue]         = useState("");
   const [newTags, setNewTags]       = useState([]);
+  const [tagInput, setTagInput]       = useState("");
   const [loading, setLoading]       = useState(true);
   const [addLoading, setAddLoading] = useState(false);
   const [addError, setAddError]     = useState("");
@@ -86,10 +87,12 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
     e.preventDefault();
     if (!newTitle.trim()) { setAddError("Title is required."); return; }
     setAddLoading(true);
-    const res = await api("/tasks", { method: "POST", body: JSON.stringify({ title: newTitle.trim(), category: newCat, due_date: newDue || null, tags: newTags }) });
+    const pendingTag = tagInput.trim().replace(/,/g, "");
+    const allTags = pendingTag && !newTags.includes(pendingTag) ? [...newTags, pendingTag] : newTags;
+    const res = await api("/tasks", { method: "POST", body: JSON.stringify({ title: newTitle.trim(), category: newCat, due_date: newDue || null, tags: allTags }) });
     setAddLoading(false);
     if (!res.ok) { setAddError(res.data.error); return; }
-    setTasks((p) => [res.data, ...p]); setNewTitle(""); setNewDue(""); setNewTags([]); setShowAdd(false); setAddError("");
+    setTasks((p) => [res.data, ...p]); setNewTitle(""); setNewDue(""); setNewTags([]); setTagInput(""); setShowAdd(false); setAddError("");
     toast.success("Task added");
   }
 
@@ -348,7 +351,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
                         ))}
                       </div>
                     )}
-                    <TagInput tags={newTags} onChange={setNewTags} />
+                    <TagInput tags={newTags} onChange={setNewTags} inputValue={tagInput} onInputChange={setTagInput} />
                   </div>
                 </div>
                 <button className="btn btn-primary" type="submit" disabled={addLoading}>

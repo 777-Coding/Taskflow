@@ -1,7 +1,12 @@
 import { useState } from "react";
 
-export function TagInput({ tags, onChange }) {
-  const [input, setInput] = useState("");
+export function TagInput({ tags, onChange, inputValue, onInputChange }) {
+  const [localInput, setLocalInput] = useState("");
+
+  // Use controlled input if provided, otherwise local state
+  const input = inputValue !== undefined ? inputValue : localInput;
+  const setInput = onInputChange || setLocalInput;
+
   function add(e) {
     if ((e.key === "Enter" || e.key === ",") && input.trim()) {
       e.preventDefault();
@@ -10,6 +15,7 @@ export function TagInput({ tags, onChange }) {
       setInput("");
     }
   }
+
   return (
     <div className="tag-input-wrap">
       {tags.map((t) => (
@@ -17,7 +23,12 @@ export function TagInput({ tags, onChange }) {
           {t}<button type="button" onClick={() => onChange(tags.filter((x) => x !== t))}>×</button>
         </span>
       ))}
-      <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={add} placeholder={tags.length ? "" : "Add tags…"} />
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={add}
+        placeholder={tags.length ? "" : "Add tags…"}
+      />
     </div>
   );
 }
