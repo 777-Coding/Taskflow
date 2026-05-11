@@ -35,6 +35,7 @@ function AllTasksView({ tasks, handlers, editMode, selected, onSelect }) {
 export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeToggle }) {
   const [tasks, setTasks]           = useState([]);
   const [tagInput, setTagInput]       = useState("");
+  const [standaloneTags, setStandaloneTags] = useState(() => { try { return JSON.parse(localStorage.getItem("tf_standalone_tags") || "[]"); } catch { return []; } });
   const [layout, setLayout]         = useState(sidebarLayout);
   const [filter, setFilter]         = useState("all");
   const [search, setSearch]         = useState("");
@@ -76,6 +77,10 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   }, [tasks, loading]);
 
   useEffect(() => { setEditMode(false); setSelected([]); }, [filter]);
+
+  useEffect(() => {
+    localStorage.setItem("tf_standalone_tags", JSON.stringify(standaloneTags));
+  }, [standaloneTags]);
 
   async function saveLayout(next) {
     setLayout(next);
@@ -186,12 +191,12 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const initials = username.slice(0, 2).toUpperCase();
   const currentLabel = layout.find((f) => f.key === filter)?.label || filter;
 
-  // Derive all unique tags from existing tasks
+  // Derive all unique tags from existing tasks + standalone tags
   const allTags = useMemo(() => {
-    const tagSet = new Set();
+    const tagSet = new Set(standaloneTags);
     tasks.forEach(t => (t.tags || []).forEach(tag => tagSet.add(tag)));
     return Array.from(tagSet).sort();
-  }, [tasks]);
+  }, [tasks, standaloneTags]);
 
   const tagColors = ["#7c5cff","#3b82f6","#10b981","#f59e0b","#f43f5e","#06b6d4"];
 
@@ -274,12 +279,23 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
 
             {/* Tags section - derived from actual task tags */}
             <div className="dash-projects">
-              <div className="dash-projects-label">Tags</div>
+              <div className="dash-projects-header">
+                <div className="dash-projects-label">Tags</div>
+                <button className="dash-tag-add" onClick={() => {
+                  const tag = prompt("New tag name:");
+                  if (tag && tag.trim() && !allTags.includes(tag.trim())) {
+                    setStandaloneTags(prev => [...prev, tag.trim()]);
+                  }
+                }}>+</button>
+              </div>
               {allTags.length === 0 && <div className="dash-no-tags">No tags yet</div>}
               {allTags.map((tag, i) => (
                 <div key={tag} className={`dash-project-item${filter === "tag:" + tag ? " active" : ""}`} onClick={() => setFilter(filter === "tag:" + tag ? "all" : "tag:" + tag)}>
                   <span className="dash-project-dot" style={{ background: tagColors[i % tagColors.length] }} />
                   <span>{tag}</span>
+                  {standaloneTags.includes(tag) && !tasks.some(t => t.tags?.includes(tag)) && (
+                    <button className="dash-tag-remove" onClick={(e) => { e.stopPropagation(); setStandaloneTags(prev => prev.filter(x => x !== tag)); if (filter === "tag:" + tag) setFilter("all"); }}>×</button>
+                  )}
                 </div>
               ))}
             </div>
