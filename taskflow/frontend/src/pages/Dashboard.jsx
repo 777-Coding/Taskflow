@@ -35,7 +35,7 @@ function AllTasksView({ tasks, handlers, editMode, selected, onSelect }) {
 export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeToggle }) {
   const [tasks, setTasks]           = useState([]);
   const [tagInput, setTagInput]       = useState("");
-  const [standaloneTags, setStandaloneTags] = useState(() => { try { return JSON.parse(localStorage.getItem("tf_standalone_tags") || "[]"); } catch { return []; } });
+  const [standaloneTags, setStandaloneTags] = useState(() => { try { return JSON.parse(localStorage.getItem("tf_standalone_tags_" + username) || "[]"); } catch { return []; } });
   const [layout, setLayout]         = useState(sidebarLayout);
   const [filter, setFilter]         = useState("all");
   const [search, setSearch]         = useState("");
@@ -79,7 +79,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   useEffect(() => { setEditMode(false); setSelected([]); }, [filter]);
 
   useEffect(() => {
-    localStorage.setItem("tf_standalone_tags", JSON.stringify(standaloneTags));
+    localStorage.setItem("tf_standalone_tags_" + username, JSON.stringify(standaloneTags));
   }, [standaloneTags]);
 
   async function saveLayout(next) {
