@@ -34,6 +34,7 @@ function AllTasksView({ tasks, handlers, editMode, selected, onSelect }) {
 
 export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeToggle }) {
   const [tasks, setTasks]           = useState([]);
+  const [tagInput, setTagInput]       = useState("");
   const [layout, setLayout]         = useState(sidebarLayout);
   const [filter, setFilter]         = useState("all");
   const [search, setSearch]         = useState("");
@@ -42,7 +43,6 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const [newCat, setNewCat]         = useState("work");
   const [newDue, setNewDue]         = useState("");
   const [newTags, setNewTags]       = useState([]);
-  const [tagInput, setTagInput]       = useState("");
   const [loading, setLoading]       = useState(true);
   const [addLoading, setAddLoading] = useState(false);
   const [addError, setAddError]     = useState("");
@@ -51,7 +51,6 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const [dragId, setDragId]         = useState(null);
   const [dragOverId, setDragOverId] = useState(null);
   const [showManage, setShowManage] = useState(false);
-  const [customTags, setCustomTags]   = useState([]);
   const [editMode, setEditMode]     = useState(false);
   const [selected, setSelected]     = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -88,8 +87,8 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
     if (!newTitle.trim()) { setAddError("Title is required."); return; }
     setAddLoading(true);
     const pendingTag = tagInput.trim().replace(/,/g, "");
-    const allTags = pendingTag && !newTags.includes(pendingTag) ? [...newTags, pendingTag] : newTags;
-    const res = await api("/tasks", { method: "POST", body: JSON.stringify({ title: newTitle.trim(), category: newCat, due_date: newDue || null, tags: allTags }) });
+    const finalTags = pendingTag && !newTags.includes(pendingTag) ? [...newTags, pendingTag] : newTags;
+    const res = await api("/tasks", { method: "POST", body: JSON.stringify({ title: newTitle.trim(), category: newCat, due_date: newDue || null, tags: finalTags }) });
     setAddLoading(false);
     if (!res.ok) { setAddError(res.data.error); return; }
     setTasks((p) => [res.data, ...p]); setNewTitle(""); setNewDue(""); setNewTags([]); setTagInput(""); setShowAdd(false); setAddError("");
@@ -187,6 +186,15 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
   const initials = username.slice(0, 2).toUpperCase();
   const currentLabel = layout.find((f) => f.key === filter)?.label || filter;
 
+  // Derive all unique tags from existing tasks
+  const allTags = useMemo(() => {
+    const tagSet = new Set();
+    tasks.forEach(t => (t.tags || []).forEach(tag => tagSet.add(tag)));
+    return Array.from(tagSet).sort();
+  }, [tasks]);
+
+  const tagColors = ["#7c5cff","#3b82f6","#10b981","#f59e0b","#f43f5e","#06b6d4"];
+
   const visible = useMemo(() => {
     const filtered = tasks.filter((t) => {
       const mf =
@@ -198,9 +206,7 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
         filter === "urgent"    ? (!t.done && t.category === "urgent") :
         filter === "personal"  ? t.category === "personal" :
         filter === "work"      ? t.category === "work" :
-        filter.startsWith("tag:")
-        ? t.tags?.includes(filter.replace("tag:tag_", "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()).toLowerCase()) || t.tags?.some(tag => "tag_" + tag.toLowerCase().replace(/\s+/g, "_") === filter.replace("tag:", ""))
-        : t.category === filter || t.tags?.includes(filter);
+        filter.startsWith("tag:") ? t.tags?.includes(filter.replace("tag:", "")) : t.category === filter || t.tags?.includes(filter);
       return mf && (!search || t.title.toLowerCase().includes(search.toLowerCase()));
     });
     return sortTasks(filtered);
@@ -266,23 +272,14 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
             </div>
             )}
 
-            {/* Tags section */}
+            {/* Tags section - derived from actual task tags */}
             <div className="dash-projects">
-              <div className="dash-projects-header">
-                <div className="dash-projects-label">Tags</div>
-                <button className="dash-tag-add" onClick={() => {
-                  const tag = prompt("New tag name:");
-                  if (tag && tag.trim()) {
-                    const key = "tag_" + tag.trim().toLowerCase().replace(/\s+/g, "_");
-                    setCustomTags(prev => prev.find(t => t.key === key) ? prev : [...prev, { key, name: tag.trim(), color: ["#7c5cff","#3b82f6","#10b981","#f59e0b","#f43f5e","#06b6d4"][prev.length % 6] }]);
-                  }
-                }}>+</button>
-              </div>
-              {customTags.map((t) => (
-                <div key={t.key} className="dash-project-item" onClick={() => setFilter("tag:" + t.key)}>
-                  <span className="dash-project-dot" style={{ background: t.color }} />
-                  <span>{t.name}</span>
-                  <button className="dash-tag-remove" onClick={(e) => { e.stopPropagation(); setCustomTags(prev => prev.filter(x => x.key !== t.key)); if (filter === "tag:" + t.key) setFilter("all"); }}>×</button>
+              <div className="dash-projects-label">Tags</div>
+              {allTags.length === 0 && <div className="dash-no-tags">No tags yet</div>}
+              {allTags.map((tag, i) => (
+                <div key={tag} className={`dash-project-item${filter === "tag:" + tag ? " active" : ""}`} onClick={() => setFilter(filter === "tag:" + tag ? "all" : "tag:" + tag)}>
+                  <span className="dash-project-dot" style={{ background: tagColors[i % tagColors.length] }} />
+                  <span>{tag}</span>
                 </div>
               ))}
             </div>
@@ -339,14 +336,14 @@ export function Dashboard({ username, theme, sidebarLayout, onLogout, onThemeTog
                 <div className="field">
                   <label>Tags</label>
                   <div className="tag-picker-wrap">
-                    {customTags.length > 0 && (
+                    {allTags.length > 0 && (
                       <div className="tag-picker-options">
-                        {customTags.map(t => (
-                          <button key={t.key} type="button"
-                            className={"tag-picker-opt" + (newTags.includes(t.name) ? " selected" : "")}
-                            style={{ borderColor: t.color, color: newTags.includes(t.name) ? "#fff" : t.color, background: newTags.includes(t.name) ? t.color + "44" : "transparent" }}
-                            onClick={() => setNewTags(prev => prev.includes(t.name) ? prev.filter(x => x !== t.name) : [...prev, t.name])}>
-                            {t.name}
+                        {allTags.map((tag, i) => (
+                          <button key={tag} type="button"
+                            className={"tag-picker-opt" + (newTags.includes(tag) ? " selected" : "")}
+                            style={{ borderColor: tagColors[i % tagColors.length], color: newTags.includes(tag) ? "#fff" : tagColors[i % tagColors.length], background: newTags.includes(tag) ? tagColors[i % tagColors.length] + "44" : "transparent" }}
+                            onClick={() => setNewTags(prev => prev.includes(tag) ? prev.filter(x => x !== tag) : [...prev, tag])}>
+                            {tag}
                           </button>
                         ))}
                       </div>
